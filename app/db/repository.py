@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from app.api.schemas.user import UserRegister, UserDB
+from app.api.schemas.user import UserRegister, UserDB, UserAdd
 
 
 class UserRepository(ABC):
@@ -8,7 +8,7 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    async def db_user_add(self, user: UserRegister, hashed_password: str) -> UserDB:
+    async def db_user_add(self, user: UserAdd) -> int():
         pass
 
     @abstractmethod
@@ -23,3 +23,6 @@ class UserRepository(ABC):
     async def db_find_verification_code(self, code: str) -> UserDB:
         pass
 
+    @abstractmethod
+    async def get_n_users_with_roles(self, roles: tuple[int, ...]  | None, n: int = 10) -> list[UserDB] | None:
+        pass

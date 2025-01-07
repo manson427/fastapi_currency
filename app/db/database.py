@@ -7,12 +7,11 @@ from fastapi import Depends
 
 
 engine = create_async_engine(
-    url=settings.DB_ALCHEMY,
+    url=settings.DB_ALCHEMY.get_secret_value(),
     echo=True
 )
 
 SessionPool = async_sessionmaker(engine, expire_on_commit=False)
-
 
 async def get_db() -> AsyncSession:
     async with SessionPool() as session:

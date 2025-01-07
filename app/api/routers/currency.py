@@ -13,5 +13,10 @@ async def exchange():
 
 
 @currency_router.post("/list/")
-async def list():
+async def show_list():
+    pass
+
+
+@currency_router.post("/update_list/")
+async def update_list():
     pass

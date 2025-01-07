@@ -10,6 +10,10 @@ class UserPasswordConfirm(BaseModel):
     password_confirm: str
 
 
+class UserHashedPassword(BaseModel):
+    hashed_password: str
+
+
 class UserName(BaseModel):
     username: str
 
@@ -27,7 +31,11 @@ class UserChangePassword(UserPassword, UserPasswordConfirm):
     pass
 
 
-class UserRegister(UserData, UserChangePassword):
+class UserAdd(UserName, UserData, UserHashedPassword):
+    pass
+
+
+class UserRegister(UserName, UserData, UserChangePassword):
     pass
 
 
@@ -35,6 +43,7 @@ class UserDB(UserName, UserData):
     hashed_password: str
     role_id: int
     verified: bool
-    refresh_token: str
-    verify_code: str
-    reset_code: str
+    refresh_token: str | None
+    verify_code: str | None
+    reset_code: str | None
+

@@ -9,7 +9,7 @@ from alembic import context
 
 from app.db.SQLAlchemy.base import Base
 
-from app.core.config import settings
+from app.core.config import settings, AlembicTestData
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -31,11 +31,11 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-
-config.set_main_option(
-    'sqlalchemy.url',
-    str(settings.DB_ALCHEMY),
-)
+if not AlembicTestData.flag_test:
+    config.set_main_option(
+        'sqlalchemy.url',
+        settings.DB_ALCHEMY.get_secret_value(),
+    )
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -89,7 +89,7 @@ async def run_async_migrations() -> None:
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
 
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(run_async_migrations())
 
 
